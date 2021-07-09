@@ -51,7 +51,7 @@ func (w *worker) run() error {
 	oldWorkerPid, err := strconv.Atoi(os.Getenv(EnvOldWorkerPid))
 	if err == nil && oldWorkerPid > 1 {
 		// tell old worker i'm ready, you should go away
-		err = syscall.Kill(oldWorkerPid, workerStopSignal)
+		//err = syscall.Kill(oldWorkerPid, workerStopSignal)
 		if err != nil {
 			// unexpected: kill old worker fail
 			fmt.Printf("[warning] kill old worker error: %v\n", err)

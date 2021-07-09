@@ -18,7 +18,7 @@ const (
 var (
 	defaultWatchInterval = time.Second
 	defaultStopTimeout   = 20 * time.Second
-	defaultReloadSignals = []syscall.Signal{syscall.SIGHUP, syscall.SIGUSR1, syscall.SIGUSR2}
+	defaultReloadSignals = []syscall.Signal{syscall.SIGHUP, syscall.SIGINT, syscall.SIGINT}
 	defaultStopSignals   = []syscall.Signal{syscall.SIGKILL, syscall.SIGTERM, syscall.SIGINT}
 
 	StartedAt time.Time
@@ -122,7 +122,7 @@ func (s *Server) Run() error {
 func (s *Server) Reload() error {
 	ppid := os.Getppid()
 	if IsWorker() && ppid != 1 && len(s.opt.reloadSignals) > 0 {
-		return syscall.Kill(ppid, s.opt.reloadSignals[0])
+		//return syscall.Kill(ppid, s.opt.reloadSignals[0])
 	}
 
 	// Reload called by user from outside usally in user's handler
