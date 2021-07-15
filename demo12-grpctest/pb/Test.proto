@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+
+package pb;
+
+import "commons-go/validator/validator.proto";
+
+service Test {
+    // 发送邮件
+    rpc demo(SendRequest) returns (SendResponse) {}
+}
+
+// 发送请求
+message SendRequest {
+    string id = 1 [(validator.field) = {string_not_empty: true}];
+}
+
+// 发送邮件响应,(请求就是Mail)
+message SendResponse {
+    enum StatusCode {
+        SUCCEED = 0;
+        // 错误
+        ERROR = 1;
+    }
+
+    // 状态码，使用了上面 StatusCode的枚举，为避免c++奔溃
+    int32 status = 1;
+
+    // 非SUCCEED情况下的错误信息
+    string errInfo = 2;
+
+}

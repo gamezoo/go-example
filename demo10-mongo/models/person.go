@@ -21,21 +21,21 @@ type Location struct {
 
 type Point struct {
 	// ID       primitive.ObjectID `json:"id" bson:"_id"`
-	Name     string             `json:"name"`
-	Age     int             `json:"age"`
-	City     string             `json:"city"`
-	Location Location           `json:"location"`
+	Name     string   `json:"name"`
+	Age      int      `json:"age"`
+	City     string   `json:"city"`
+	Location Location `json:"location"`
 }
 
 type IPoint struct {
-	Dis float64 `json:"dist"`
+	Dis   float64 `json:"dist"`
 	Point Point
 }
 
 const (
-	DBName = "sai"
+	DBName         = "sai"
 	CollectionName = "persons"
-	Key = "location"
+	Key            = "location"
 )
 
 func GetClient() *mgo {
@@ -65,7 +65,7 @@ type mgo struct {
 	client *mongo.Client
 }
 
-func(mgo *mgo) Start() {
+func (mgo *mgo) Start() {
 	collection := mgo.client.Database(DBName).Collection(CollectionName)
 	collection.Drop(context.TODO())
 
@@ -74,14 +74,14 @@ func(mgo *mgo) Start() {
 		Keys: bson.M{Key: "2dsphere"},
 	})
 
-	a := Point{"王二", 18, "杭州", Location{"Point", []float64{120.185614,30.300738}}}
-	b := Point{"张三", 25, "杭州", Location{"Point", []float64{120.094778,30.310217}}}
-	c := Point{"小晴", 35, "绍兴", Location{"Point", []float64{120.603847,30.054237}}}
-	d := Point{"李四", 34, "杭州", Location{"Point", []float64{120.110893,30.207849}}}
-	e := Point{"小明", 24, "北京", Location{"Point", []float64{116.435721,39.914031}}}
-	f := Point{"吴六", 25, "杭州", Location{"Point", []float64{120.126443,30.33084}}}
-	h := Point{"于一", 23, "杭州", Location{"Point", []float64{120.28132,30.184083}}}
-	j := Point{"小七", 14, "杭州", Location{"Point", []float64{119.73926,30.247639}}}
+	a := Point{"王二", 18, "杭州", Location{"Point", []float64{120.185614, 30.300738}}}
+	b := Point{"张三", 25, "杭州", Location{"Point", []float64{120.094778, 30.310217}}}
+	c := Point{"小晴", 35, "绍兴", Location{"Point", []float64{120.603847, 30.054237}}}
+	d := Point{"李四", 34, "杭州", Location{"Point", []float64{120.110893, 30.207849}}}
+	e := Point{"小明", 24, "北京", Location{"Point", []float64{116.435721, 39.914031}}}
+	f := Point{"吴六", 25, "杭州", Location{"Point", []float64{120.126443, 30.33084}}}
+	h := Point{"于一", 23, "杭州", Location{"Point", []float64{120.28132, 30.184083}}}
+	j := Point{"小七", 14, "杭州", Location{"Point", []float64{119.73926, 30.247639}}}
 
 	// 单条插入
 	insertResult, err := collection.InsertOne(context.TODO(), a)
@@ -104,16 +104,16 @@ func (mgo *mgo) Near() {
 	collection := mgo.client.Database(DBName).Collection(CollectionName)
 	cur, err := collection.Find(context.TODO(), bson.D{
 		{Key, bson.D{
-				{"$near", bson.D{
-					{
-						"$geometry", Location{
-							"Point",
-							[]float64{120.110893,30.2078490},
-						},
+			{"$near", bson.D{
+				{
+					"$geometry", Location{
+						"Point",
+						[]float64{120.110893, 30.2078490},
 					},
-					{"$maxDistance", 15000},
-				}},
+				},
+				{"$maxDistance", 15000},
 			}},
+		}},
 	})
 
 	if err != nil {
@@ -137,7 +137,7 @@ func (mgo *mgo) Near() {
 	fmt.Println("查找到", len(results))
 }
 
-func(mgo *mgo) Close() {
+func (mgo *mgo) Close() {
 	mgo.client.Disconnect(context.TODO())
 	fmt.Println("!!!Disconnect MongoDB")
 }
