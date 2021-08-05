@@ -3,7 +3,6 @@ syntax = "proto3";
 
 package pb;
 
-import "commons-go/validator/validator.proto";
 
 service Test {
     // 发送邮件
@@ -12,7 +11,7 @@ service Test {
 
 // 发送请求
 message SendRequest {
-    string id = 1 [(validator.field) = {string_not_empty: true}];
+    string id = 1;
 }
 
 // 发送邮件响应,(请求就是Mail)
