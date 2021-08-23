@@ -23,8 +23,8 @@ func main() {
 	ctx := context.Background()
 	errChan := make(chan error)
 
-	model.ConnMysql("mysql", "3306", "root", "111111", "user")
-	model.ConnRedis("redis", "6379", "")
+	model.ConnMysql("10.10.20.16", "3306", "root", "123456", "user")
+	model.ConnRedis("10.10.20.16", "6389", "")
 
 	userService := service.MakeUserServiceImpl(&model.UserDaoImpl{})
 
